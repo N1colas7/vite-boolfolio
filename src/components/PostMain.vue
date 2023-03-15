@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+import PostCard from './PostCard.vue';
 
 export default {
     name: "PostMain",
@@ -12,13 +13,17 @@ export default {
             lastPage: null
         }
     },
+    components:{
+        PostCard
+    },
     methods: {
         getPosts(post_page) {
             this.loading = true;
             axios.get(`${this.baseUrl}/api/posts`, { params: { page: post_page} }).then((response) => {
                 if (response.data.success) {
+                    console.log(response.data);
 
-                    this.posts = response.data.posts;
+                    this.posts = response.data.posts.data;
                     this.currentPage = response.data.posts.current_page;
                     this.lastPage = response.data.posts.last_page;
                     this.loading = false;
@@ -45,32 +50,21 @@ export default {
                 <div v-if="loading" class="d-flex justify-content-center">
                     <div class="loader"></div>
                 </div>
-                <div v-else class="d-flex justify-content-center flex-wrap m-5">
-                    <div class="card my-3" v-for="post in posts" :key="post_id">
-                        <div class="card-img-top">
-                            <img class="img-fluid" :src="post.cover_image !=null ? `${baseUrl}/${post.cover_image}` : 'https://picsum.photos/200/300'" >
+                <div v-else class="flex-wrap m-5">
+                    <div class="row">
+                        <div class="col-12" v-for="post in posts" :key="post.id">
+                            <PostCard :post="post" :baseUrl="baseUrl"></PostCard>
                         </div>
-                        <div class="card-title">
-                            <h5>{{ post.title }}</h5>
-                        </div>
-                        <div class="card-text">
-                            {{ post.content }}
-                        </div>
-                        <a href="#" class="btn btn-sm btn-success">
-                            Leggi il post
-                        </a>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 d-flex justify-content-center">
                             <nav>
                                 <ul class="pagination">
                                     <li :class="currentPage === 1 ? 'disabled' : 'page-item'">
                                         <button class="page-link" @click="getPosts(currentPage - 1)">Prev</button>
                                     </li>
-                                    <li  class="page-item" v-for="i in [1,lastPage]">
-                                        <button class="page-link" @click="getPosts(i)">
-                                            {{ i }}
-                                        </button>
+                                    <li :class="currentPage === i ? 'disabled' : 'page-item'" v-for="i in lastPage">
+                                        <button class="page-link" @click="getPosts(i)">{{ i }}</button>
                                     </li>
                                     <li :class="currentPage === lastPage ? 'disabled' : 'page-item'">
                                         <button class="page-link" @click="getPosts(currentPage + 1)">Next</button>
