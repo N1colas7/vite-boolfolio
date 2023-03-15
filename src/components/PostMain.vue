@@ -48,13 +48,13 @@ export default {
                 <div v-else class="d-flex justify-content-center flex-wrap m-5">
                     <div class="card my-3" v-for="post in posts" :key="post_id">
                         <div class="card-img-top">
-                            <!-- <img class="img-fluid" :src="post.cover_image !=null ? `${baseUrl}/${post.cover_image}` : 'https://picsum.photos/200/300'" > -->
+                            <img class="img-fluid" :src="post.cover_image !=null ? `${baseUrl}/${post.cover_image}` : 'https://picsum.photos/200/300'" >
                         </div>
                         <div class="card-title">
-                            <h5>{{ posts.title }}</h5>
+                            <h5>{{ post.title }}</h5>
                         </div>
                         <div class="card-text">
-                            {{ posts.content }}
+                            {{ post.content }}
                         </div>
                         <a href="#" class="btn btn-sm btn-success">
                             Leggi il post
