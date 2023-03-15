@@ -8,6 +8,10 @@ export default {
                     label: 'HomePage',
                     routeName: 'homepage',
                     //link: '/'
+                },
+                {
+                    label: 'Blog',
+                    routeName: 'post_list'
                 }
             ]
         }
