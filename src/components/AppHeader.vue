@@ -6,7 +6,7 @@ export default {
             menuItems : [
                 {
                     label: 'HomePage',
-                    routeName: 'homepage'
+                    routeName: 'homepage',
                     //link: '/'
                 }
             ]
