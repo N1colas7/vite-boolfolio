@@ -1,5 +1,6 @@
 <script>
     import axios from 'axios';
+
 export default {
 
     name: 'Contacts',
@@ -10,6 +11,7 @@ export default {
             email: '',
             phone:'',
             message:'',
+            errors:null
         }
     },
     methods:{
@@ -23,7 +25,16 @@ export default {
             }
 
             axios.post(`${this.store.baseUrl}/api/contacts`,data).then((response) => {
-
+                if(!this.success){
+                    this.errors = response.data.errors
+                }
+                else{
+                    this.name ='';
+                    this.surname = '';
+                    this.email = '';
+                    this.phone ='';
+                    this.message ='';
+                }
             });
         }
     }
